@@ -1,23 +1,19 @@
 package com.example.bottomsheetfrgjava;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.DatePickerDialog;
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import androidx.appcompat.app.AppCompatActivity;
+import java.util.Calendar;
 
-import java.util.ArrayList;
-import java.util.List;
+public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-public class MainActivity extends AppCompatActivity {
-
-    Button button;
+    Button button, button1;
     Spinner spinner;
 
     @Override
@@ -25,16 +21,34 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        button=findViewById(R.id.nextButton);
-      button.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
+        button = findViewById(R.id.nextButton);
+        button1 = (Button) findViewById(R.id.date_picker);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-              BottomSheetFragment bottomSheetFragment = new BottomSheetFragment();
-              bottomSheetFragment.show(getSupportFragmentManager(),bottomSheetFragment.getTag());
-          }
-      });
-
+                BottomSheetFragment bottomSheetFragment = new BottomSheetFragment();
+                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+            }
+        });
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment datePicker = new DatePickerFragment();
+datePicker.show(getFragmentManager(),"date picker");
+            }
+        });
 
     }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int dayofMonth) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR,year);
+        c.set(Calendar.MONTH,month);
+        c.set(Calendar.DAY_OF_MONTH,dayofMonth);
+
+//        can set the data to any view here
+    }
+
 }
